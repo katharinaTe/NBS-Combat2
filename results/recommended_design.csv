@@ -1,0 +1,48 @@
+subcatchment,nbs,type,area_m2,capital_eur,lifecycle_eur
+S1,Bioretention cell / rain garden,BC,2188.4,393913.0,589261.0
+S1,Green roof,GR,28.3,6222.0,9589.0
+S1,Permeable pavement,PP,28.0,3358.0,5023.0
+S1,Rain barrel / cistern,RB,946.0,85137.0,113285.0
+S10,Bioretention cell / rain garden,BC,772.9,139124.0,208117.0
+S10,Green roof,GR,280.9,61808.0,95246.0
+S10,Permeable pavement,PP,166.7,20001.0,29919.0
+S10,Rain barrel / cistern,RB,2.1,191.0,255.0
+S11,Bioretention cell / rain garden,BC,815.3,146760.0,219541.0
+S11,Green roof,GR,16.8,3685.0,5679.0
+S11,Permeable pavement,PP,180.0,21599.0,32311.0
+S11,Rain barrel / cistern,RB,43.3,3901.0,5191.0
+S12,Bioretention cell / rain garden,BC,1801.5,324263.0,485070.0
+S12,Green roof,GR,1633.5,359361.0,553774.0
+S12,Permeable pavement,PP,176.6,21188.0,31695.0
+S12,Rain barrel / cistern,RB,73.9,6651.0,8850.0
+S2,Bioretention cell / rain garden,BC,253.9,45709.0,68377.0
+S2,Green roof,GR,4754.1,1045898.0,1611727.0
+S2,Permeable pavement,PP,1391.5,166977.0,249784.0
+S2,Rain barrel / cistern,RB,33.3,2998.0,3990.0
+S3,Bioretention cell / rain garden,BC,1190.8,214348.0,320647.0
+S3,Green roof,GR,729.5,160496.0,247325.0
+S3,Permeable pavement,PP,2861.7,343399.0,513697.0
+S3,Rain barrel / cistern,RB,11.9,1068.0,1421.0
+S4,Bioretention cell / rain garden,BC,1447.4,260527.0,389726.0
+S4,Green roof,GR,2926.8,643899.0,992249.0
+S4,Permeable pavement,PP,2188.6,262629.0,392870.0
+S4,Rain barrel / cistern,RB,450.9,40581.0,53997.0
+S5,Bioretention cell / rain garden,BC,109.6,19733.0,29520.0
+S5,Green roof,GR,296.6,65261.0,100567.0
+S5,Permeable pavement,PP,351.6,42190.0,63112.0
+S5,Rain barrel / cistern,RB,2084.3,187586.0,249603.0
+S6,Bioretention cell / rain garden,BC,284.5,51206.0,76599.0
+S6,Green roof,GR,129.1,28392.0,43751.0
+S6,Permeable pavement,PP,94.6,11346.0,16973.0
+S6,Rain barrel / cistern,RB,985.4,88683.0,118002.0
+S7,Bioretention cell / rain garden,BC,54.3,9768.0,14612.0
+S7,Green roof,GR,52.2,11490.0,17706.0
+S7,Permeable pavement,PP,113.8,13652.0,20422.0
+S7,Rain barrel / cistern,RB,1783.5,160511.0,213577.0
+S8,Bioretention cell / rain garden,BC,1206.8,217228.0,324954.0
+S8,Green roof,GR,4809.9,1058187.0,1630666.0
+S8,Rain barrel / cistern,RB,1216.5,109488.0,145685.0
+S9,Bioretention cell / rain garden,BC,1487.8,267804.0,400612.0
+S9,Green roof,GR,407.1,89572.0,138030.0
+S9,Permeable pavement,PP,242.7,29121.0,43563.0
+S9,Rain barrel / cistern,RB,1411.5,127033.0,169031.0

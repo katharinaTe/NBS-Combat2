@@ -1,0 +1,251 @@
+[TITLE]
+NBS Combat - demonstration urban catchment (reproducible baseline)
+Trunk sewer is under-capacity; design storms cause node flooding.
+
+[OPTIONS]
+FLOW_UNITS           CMS
+INFILTRATION         HORTON
+FLOW_ROUTING         DYNWAVE
+LINK_OFFSETS         DEPTH
+MIN_SLOPE            0
+ALLOW_PONDING        YES
+SKIP_STEADY_STATE    NO
+START_DATE           01/01/2025
+START_TIME           00:00:00
+REPORT_START_DATE    01/01/2025
+REPORT_START_TIME    00:00:00
+END_DATE             01/01/2025
+END_TIME             04:00:00
+SWEEP_START          01/01
+SWEEP_END            12/31
+DRY_DAYS             0
+REPORT_STEP          00:05:00
+WET_STEP             00:01:00
+DRY_STEP             00:05:00
+ROUTING_STEP         0:00:15
+RULE_STEP            00:00:00
+INERTIAL_DAMPING     PARTIAL
+NORMAL_FLOW_LIMITED  BOTH
+FORCE_MAIN_EQUATION  H-W
+VARIABLE_STEP        0.75
+LENGTHENING_STEP     0
+MIN_SURFAREA         1.167
+MAX_TRIALS           8
+HEAD_TOLERANCE       0.0015
+SYS_FLOW_TOL         5
+LAT_FLOW_TOL         5
+MINIMUM_STEP         0.5
+THREADS              1
+
+[EVAPORATION]
+;;Type      Parameters
+CONSTANT    3.0
+DRY_ONLY    NO
+
+[RAINGAGES]
+;;Name  Format    Interval  SCF  Source
+RG1     INTENSITY 0:05      1.0  TIMESERIES TS_T10
+
+[SUBCATCHMENTS]
+;;Name  RainGage  Outlet  Area  %Imperv  Width  %Slope  CurbLen
+S1      RG1       J1      2.00     45   169.7  1.50  0
+S2      RG1       J2      2.00     55   169.7  1.50  0
+S3      RG1       J3      2.00     62   169.7  1.50  0
+S4      RG1       J4      2.00     48   169.7  1.50  0
+S5      RG1       J5      2.00     70   169.7  1.50  0
+S6      RG1       J6      2.00     85   169.7  1.50  0
+S7      RG1       J7      2.00     80   169.7  1.50  0
+S8      RG1       J8      2.00     60   169.7  1.50  0
+S9      RG1       J9      2.00     52   169.7  1.50  0
+S10     RG1       J10     2.00     75   169.7  1.50  0
+S11     RG1       J11     2.00     78   169.7  1.50  0
+S12     RG1       J12     2.00     50   169.7  1.50  0
+
+[SUBAREAS]
+;;Subcat  N-Imperv  N-Perv  S-Imperv  S-Perv  PctZero  RouteTo
+S1      0.013     0.10    1.5       5.0     25       OUTLET
+S2      0.013     0.10    1.5       5.0     25       OUTLET
+S3      0.013     0.10    1.5       5.0     25       OUTLET
+S4      0.013     0.10    1.5       5.0     25       OUTLET
+S5      0.013     0.10    1.5       5.0     25       OUTLET
+S6      0.013     0.10    1.5       5.0     25       OUTLET
+S7      0.013     0.10    1.5       5.0     25       OUTLET
+S8      0.013     0.10    1.5       5.0     25       OUTLET
+S9      0.013     0.10    1.5       5.0     25       OUTLET
+S10     0.013     0.10    1.5       5.0     25       OUTLET
+S11     0.013     0.10    1.5       5.0     25       OUTLET
+S12     0.013     0.10    1.5       5.0     25       OUTLET
+
+[INFILTRATION]
+;;Subcat  MaxRate  MinRate  Decay  DryTime  MaxInfil
+S1      75.0     8.0      4.0    7        0
+S2      75.0     8.0      4.0    7        0
+S3      75.0     8.0      4.0    7        0
+S4      75.0     8.0      4.0    7        0
+S5      75.0     8.0      4.0    7        0
+S6      75.0     8.0      4.0    7        0
+S7      75.0     8.0      4.0    7        0
+S8      75.0     8.0      4.0    7        0
+S9      75.0     8.0      4.0    7        0
+S10     75.0     8.0      4.0    7        0
+S11     75.0     8.0      4.0    7        0
+S12     75.0     8.0      4.0    7        0
+
+[JUNCTIONS]
+;;Name  Elev  MaxDepth  InitDepth  SurDepth  Aponded
+J1      100.00  3.0       0          0         2000
+J2      99.40  3.0       0          0         2000
+J3      98.80  3.0       0          0         2000
+J4      98.20  3.0       0          0         2000
+J5      97.60  3.0       0          0         2000
+J6      97.00  3.0       0          0         2000
+J7      100.00  3.0       0          0         2000
+J8      99.40  3.0       0          0         2000
+J9      98.80  3.0       0          0         2000
+J10     98.20  3.0       0          0         2000
+J11     97.60  3.0       0          0         2000
+J12     97.00  3.0       0          0         2000
+JT      95.90  3.0       0          0         2000
+
+[OUTFALLS]
+;;Name  Elev  Type  Gated
+OUT     95.10  FREE  NO
+
+[CONDUITS]
+;;Name  FromNode  ToNode  Length  Roughness  InOffset  OutOffset  InitFlow  MaxFlow
+CA1     J1      J2       120.0  0.013      0         0          0         0
+CA2     J2      J3       120.0  0.013      0         0          0         0
+CA3     J3      J4       120.0  0.013      0         0          0         0
+CA4     J4      J5       120.0  0.013      0         0          0         0
+CA5     J5      J6       120.0  0.013      0         0          0         0
+CB1     J7      J8       120.0  0.013      0         0          0         0
+CB2     J8      J9       120.0  0.013      0         0          0         0
+CB3     J9      J10      120.0  0.013      0         0          0         0
+CB4     J10     J11      120.0  0.013      0         0          0         0
+CB5     J11     J12      120.0  0.013      0         0          0         0
+CA_T    J6      JT        90.0  0.013      0         0          0         0
+CB_T    J12     JT        90.0  0.013      0         0          0         0
+C_OUT   JT      OUT       80.0  0.013      0         0          0         0
+
+[XSECTIONS]
+;;Link  Shape     Geom1  Geom2  Geom3  Geom4  Barrels
+CA1     CIRCULAR  0.600  0      0      0      1
+CA2     CIRCULAR  0.600  0      0      0      1
+CA3     CIRCULAR  0.600  0      0      0      1
+CA4     CIRCULAR  0.600  0      0      0      1
+CA5     CIRCULAR  0.600  0      0      0      1
+CB1     CIRCULAR  0.600  0      0      0      1
+CB2     CIRCULAR  0.600  0      0      0      1
+CB3     CIRCULAR  0.600  0      0      0      1
+CB4     CIRCULAR  0.600  0      0      0      1
+CB5     CIRCULAR  0.600  0      0      0      1
+CA_T    CIRCULAR  0.750  0      0      0      1
+CB_T    CIRCULAR  0.750  0      0      0      1
+C_OUT   CIRCULAR  0.750  0      0      0      1
+
+[TIMESERIES]
+;;Name  Time   Value
+TS_T1     0:00    6.83
+TS_T1     0:05    7.41
+TS_T1     0:10    8.12
+TS_T1     0:15    9.01
+TS_T1     0:20    10.16
+TS_T1     0:25    11.73
+TS_T1     0:30    14.01
+TS_T1     0:35    17.69
+TS_T1     0:40    24.87
+TS_T1     0:45    47.22
+TS_T1     0:50    32.06
+TS_T1     0:55    23.22
+TS_T1     1:00    18.54
+TS_T1     1:05    15.6
+TS_T1     1:10    13.56
+TS_T1     1:15    12.05
+TS_T1     1:20    10.88
+TS_T1     1:25    9.94
+TS_T1     1:30    9.18
+TS_T1     1:35    8.54
+TS_T1     1:40    7.99
+TS_T1     1:45    7.52
+TS_T1     1:50    7.11
+TS_T1     1:55    6.75
+;
+TS_T10    0:00    11.71
+TS_T10    0:05    12.71
+TS_T10    0:10    13.92
+TS_T10    0:15    15.44
+TS_T10    0:20    17.42
+TS_T10    0:25    20.1
+TS_T10    0:30    24.01
+TS_T10    0:35    30.33
+TS_T10    0:40    42.63
+TS_T10    0:45    80.95
+TS_T10    0:50    54.96
+TS_T10    0:55    39.8
+TS_T10    1:00    31.79
+TS_T10    1:05    26.74
+TS_T10    1:10    23.24
+TS_T10    1:15    20.65
+TS_T10    1:20    18.65
+TS_T10    1:25    17.05
+TS_T10    1:30    15.73
+TS_T10    1:35    14.63
+TS_T10    1:40    13.7
+TS_T10    1:45    12.89
+TS_T10    1:50    12.19
+TS_T10    1:55    11.57
+;
+TS_T100   0:00    19.04
+TS_T100   0:05    20.65
+TS_T100   0:10    22.62
+TS_T100   0:15    25.09
+TS_T100   0:20    28.3
+TS_T100   0:25    32.67
+TS_T100   0:30    39.02
+TS_T100   0:35    49.28
+TS_T100   0:40    69.27
+TS_T100   0:45    131.54
+TS_T100   0:50    89.31
+TS_T100   0:55    64.68
+TS_T100   1:00    51.66
+TS_T100   1:05    43.46
+TS_T100   1:10    37.77
+TS_T100   1:15    33.56
+TS_T100   1:20    30.3
+TS_T100   1:25    27.7
+TS_T100   1:30    25.56
+TS_T100   1:35    23.78
+TS_T100   1:40    22.26
+TS_T100   1:45    20.95
+TS_T100   1:50    19.8
+TS_T100   1:55    18.79
+;
+
+[REPORT]
+INPUT      NO
+CONTROLS   NO
+SUBCATCHMENTS ALL
+NODES      ALL
+LINKS      ALL
+
+[COORDINATES]
+;;Node  X  Y
+J1      0.0  200.0
+J2      100.0  200.0
+J3      200.0  200.0
+J4      300.0  200.0
+J5      400.0  200.0
+J6      500.0  200.0
+J7      0.0  0.0
+J8      100.0  0.0
+J9      200.0  0.0
+J10     300.0  0.0
+J11     400.0  0.0
+J12     500.0  0.0
+JT      650.0  100.0
+OUT     750.0  100.0
+
+[SYMBOLS]
+;;Gage  X  Y
+RG1     -50.0  100.0
+

@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# SWMM run artifacts
+*.rpt
+*.out
+*.hsf
+nbscombat_*/
+
+# OS
+.DS_Store

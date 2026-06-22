@@ -1,0 +1,8 @@
+# NBS Combat solution -- core dependencies
+# SWMM hydraulic engine is bundled with pyswmm (swmm-toolkit), so no separate
+# EPA-SWMM install is required.
+pyswmm==2.1.0
+pymoo==0.6.1.6
+numpy>=1.26
+pandas>=2.0
+matplotlib>=3.8
