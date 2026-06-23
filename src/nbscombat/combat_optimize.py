@@ -37,7 +37,7 @@ from typing import Dict, List, Optional
 
 from .combat_data import (BIODIVERSITY_TYPES, BUDGET_EUR, NBS_TYPES,
                           SubcatchmentLimits)
-from .combat_model import Solution
+from .combat_model import Placement, Solution
 
 # Annual impervious-runoff depth (m/yr): 0.783 m rain x runoff coefficient.
 ANNUAL_RUNOFF_DEPTH = 0.783 * 0.9
@@ -163,6 +163,155 @@ def greedy_solution(limits, geom, *, budget: float = BUDGET_EUR,
 
     # Ensure summed %-impervious treated per sub-catchment stays <=100% (SWMM
     # ERROR 188): roof+road keep their surface fractions, green takes the rest.
+    sol.apportion_from_imp()
+    return sol
+
+
+def competition_solution(limits, geom, *, budget: float = BUDGET_EUR,
+                         budget_use: float = 0.99, bio_target: float = 1270.0,
+                         green_cap: float = 40.0) -> Solution:
+    """Maximise biodiversity (all four green types to ``bio_target``) co-located
+    with capture, then fill the rest of the budget with the most
+    capture-efficient pavement/cistern fillers.
+
+    Each biodiversity type is placed sequentially over the highest-impervious
+    sub-catchments. Green-area cells (bio-retention, dry swale) are capped at
+    ``green_cap`` m² per install so the budget spreads across many high-runoff
+    sub-catchments (broad CSO/TSS capture) rather than a few oversized cells;
+    roof LIDs take their full allowed area.
+    """
+    cap = budget * budget_use
+    cands = {(c.subcatch, c.nbs_key): c for c in build_candidates(limits, geom)}
+    subs = sorted(geom, key=lambda s: geom[s].get("imperv_m2", 0.0), reverse=True)
+
+    sol = Solution()
+    state = {"spent": 0.0}
+    used_group: Dict[str, set] = {}
+
+    def place(sc, key, area):
+        c = cands.get((sc, key))
+        if c is None or area < MIN_AREA:
+            return 0.0
+        if c.group in used_group.get(sc, set()):
+            return 0.0
+        if c.cost(area) + state["spent"] > cap:
+            return 0.0
+        sol.add(sc, key, area, c.from_imp_pct)
+        state["spent"] += c.cost(area)
+        used_group.setdefault(sc, set()).add(c.group)
+        return area
+
+    # 1-4. biodiversity types, highest-impervious first.
+    for key in ("bioretention", "dryswale", "ext_green_roof", "int_green_roof"):
+        binary = NBS_TYPES[key].binary_area
+        total = 0.0
+        for sc in subs:
+            if total >= bio_target:
+                break
+            c = cands.get((sc, key))
+            if c is None:
+                continue
+            area = c.max_area if binary else min(c.max_area, green_cap,
+                                                 bio_target - total)
+            total += place(sc, key, area)
+
+    # 5-6. capture fill with the most cost-effective pavement / cisterns.
+    fillers = sorted((c for c in cands.values()
+                      if c.nbs_key in ("permeable", "cistern")),
+                     key=lambda c: c.ce(), reverse=True)
+    for c in fillers:
+        place(c.subcatch, c.nbs_key, c.auto_area())
+
+    sol.apportion_from_imp()
+    return sol
+
+
+def winning_solution(limits, geom, *, budget: float = BUDGET_EUR,
+                     budget_use: float = 0.99, bio_target: float = 1300.0,
+                     fill_frac: float = 0.12, green_area_cap: float = 25.0) -> Solution:
+    """Biodiversity-and-capture co-maximising greedy (competition strategy).
+
+    The biodiversity indicator rewards *total* green area, and bio-retention /
+    dry swale treat 100% of a sub-catchment's impervious area, so the same green
+    LIDs that lift biodiversity also drive flood/CSO/TSS reduction. Three passes:
+
+    1. *Spread* -- walk sub-catchments from most to least impervious; give each
+       green slot to the lagging of {bio-retention, dry swale} and each roof slot
+       to the lagging of {extensive, intensive green roof}, auto-sized to the
+       treated load. This maximises capture coverage and keeps the four types
+       balanced.
+    2. *Enlarge for biodiversity* -- while a biodiversity type's total area is
+       below ``bio_target``, grow its existing installs (highest-impervious
+       first) toward their allowed maximum. Enlarging costs only unit price (no
+       new base cost), so it is the budget-efficient way to lift biodiversity;
+       accepting the diminishing capture return of larger cells.
+    3. *Capture fill* -- spend a remaining slice (``fill_frac`` of budget) on the
+       best capture-per-euro fillers (permeable pavement, cisterns).
+    """
+    cap = budget * budget_use
+    cands = {(c.subcatch, c.nbs_key): c for c in build_candidates(limits, geom)}
+
+    sol = Solution()
+    state = {"spent": 0.0}
+    used_group: Dict[str, set] = {}
+    bio_area = {k: 0.0 for k in BIODIVERSITY_TYPES}
+    placed: Dict[tuple, Placement] = {}
+
+    def install(c: Candidate, area: float, limit: float):
+        if area < MIN_AREA or c.cost(area) + state["spent"] > limit:
+            return False
+        if c.group in used_group.get(c.subcatch, set()):
+            return False
+        sol.add(c.subcatch, c.nbs_key, area, c.from_imp_pct)
+        state["spent"] += c.cost(area)
+        used_group.setdefault(c.subcatch, set()).add(c.group)
+        placed[(c.subcatch, c.nbs_key)] = sol.placements[c.subcatch][c.group]
+        if c.nbs_key in bio_area:
+            bio_area[c.nbs_key] += area
+        return True
+
+    subs = sorted(geom, key=lambda s: geom[s].get("imperv_m2", 0.0), reverse=True)
+    spread_budget = cap * (1.0 - fill_frac)
+
+    # ---- Pass 1: green-area biodiversity, co-located with capture ---------- #
+    # Interleave bio-retention / dry swale across the highest-impervious
+    # sub-catchments (both treat 100% impervious -> capture) sizing each to take
+    # its sub-catchment's allowed area until each type reaches bio_target.
+    green_pair = ["bioretention", "dryswale"]
+    gi = 0
+    for sc in subs:
+        if all(bio_area[k] >= bio_target for k in green_pair):
+            break
+        # try the lagging green type first in this sub-catchment
+        for key in sorted(green_pair, key=lambda k: bio_area[k]):
+            if bio_area[key] >= bio_target:
+                continue
+            c = cands.get((sc, key))
+            if c is None:
+                continue
+            area = min(c.max_area, bio_target - bio_area[key])
+            if install(c, area, spread_budget):
+                break
+
+    # ---- Pass 2: roof biodiversity (extensive / intensive green roof) ------ #
+    roof_pair = ["ext_green_roof", "int_green_roof"]
+    for sc in subs:
+        if all(bio_area[k] >= bio_target for k in roof_pair):
+            break
+        for key in sorted(roof_pair, key=lambda k: bio_area[k]):
+            if bio_area[key] >= bio_target:
+                continue
+            c = cands.get((sc, key))
+            if c and install(c, c.max_area, spread_budget):
+                break
+
+    # ---- Pass 3: capture fill (permeable, cisterns) ----------------------- #
+    fillers = sorted((c for c in cands.values()
+                      if c.nbs_key in ("permeable", "cistern")),
+                     key=lambda c: c.ce(), reverse=True)
+    for c in fillers:
+        install(c, c.auto_area(), cap)
+
     sol.apportion_from_imp()
     return sol
 
