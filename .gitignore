@@ -17,6 +17,7 @@ results_combat/runs*/
 data/official/*.inp
 data/official/*.dat
 data/official/*.xlsx
+data/official_event/
 
 # OS
 .DS_Store

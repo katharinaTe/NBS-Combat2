@@ -25,7 +25,8 @@ from nbscombat.combat_validate import validate_solutions
 from nbscombat import combat_report
 
 OFFICIAL_INP = ROOT / "data/official/Case_study.inp"
-SURROGATE_INP = ROOT / "data/official/Case_study_aug.inp"
+SURROGATE_INP = ROOT / "data/official_event/Case_study_event.inp"
+WINDOW_LABEL = "20 Aug-3 Sep 2018 storm window (warm-up from 20 Aug, evaluation from 22 Aug)"
 IMPL = ROOT / "data/official/implementation_details.xlsx"
 TEMPLATE = ROOT / "data/official/solutions_template.xlsx"
 RESULTS = ROOT / "results_combat"
@@ -72,12 +73,12 @@ def main():
     combat_report.write_report(RESULTS / "combat_report.md", baseline=baseline,
                                variant_kpis=kpis, indicators=indicators,
                                ranking=ranking, recommended=recommended,
-                               summaries=summaries)
+                               summaries=summaries, window=WINDOW_LABEL)
     solutions[recommended].to_excel(str(TEMPLATE),
                                     str(RESULTS / "solution_SUBMIT.xlsx"))
 
     # Machine-readable dump.
-    dump = {"window": "August 2018 (surrogate)", "recommended": recommended,
+    dump = {"window": WINDOW_LABEL, "recommended": recommended,
             "ranking": [(n, float(s)) for n, s in ranking],
             "baseline_kpis": {k: getattr(baseline, k) for k in
                               ("flood_volume", "evaporation", "wwtp_volume",
