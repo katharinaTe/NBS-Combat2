@@ -84,6 +84,10 @@ def topsis(matrix: np.ndarray, weights: np.ndarray = None) -> np.ndarray:
 def rank_variants(indicators: Dict[str, Indicators],
                   weights: np.ndarray = None):
     names = list(indicators.keys())
+    if not names:
+        return []
+    if len(names) == 1:
+        return [(names[0], 1.0)]
     matrix = np.array([indicators[n].as_row() for n in names], dtype=float)
     scores = topsis(matrix, weights)
     order = np.argsort(-scores)

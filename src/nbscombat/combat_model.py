@@ -101,6 +101,26 @@ class Solution:
             errs.append(f"budget violated: {cost:,.0f} >= {BUDGET_EUR:,.0f}")
         return errs
 
+    def apportion_from_imp(self, margin: float = 0.5):
+        """Cap the summed % impervious treated per sub-catchment to <=100%.
+
+        SWMM rejects a sub-catchment whose LIDs collectively capture more than
+        its impervious area (ERROR 188). Roof and road LIDs treat their own
+        (disjoint) surface fractions; the green LID treats the remaining
+        impervious. A small ``margin`` keeps the sum strictly below 100%.
+        """
+        for groups in self.placements.values():
+            total = 100.0 - margin
+            used = 0.0
+            for grp in ("road", "roof"):
+                p = groups.get(grp)
+                if p:
+                    p.from_imp_pct = min(p.from_imp_pct, max(0.0, total - used))
+                    used += p.from_imp_pct
+            green = groups.get("green")
+            if green:
+                green.from_imp_pct = max(0.0, min(green.from_imp_pct, total - used))
+
     # ------------------------------------------------------------------ #
     # SWMM rendering
     # ------------------------------------------------------------------ #

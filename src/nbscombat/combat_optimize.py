@@ -161,6 +161,9 @@ def greedy_solution(limits, geom, *, budget: float = BUDGET_EUR,
     for c in pool:
         install(c, c.auto_area())
 
+    # Ensure summed %-impervious treated per sub-catchment stays <=100% (SWMM
+    # ERROR 188): roof+road keep their surface fractions, green takes the rest.
+    sol.apportion_from_imp()
     return sol
 
 
