@@ -20,8 +20,6 @@ import json
 import sys
 from pathlib import Path
 
-import numpy as np
-
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
@@ -107,8 +105,6 @@ def main():
                                summaries=summaries)
     # Promote the recommended variant to the official submission file.
     solutions[recommended].to_excel(args.template, results / "solution_SUBMIT.xlsx")
-    np.save(results / "baseline_kpis.npy",
-            np.array(baseline.as_row() if hasattr(baseline, "as_row") else []))
 
     print(f"\n=== TOPSIS ranking ===")
     for name, score in ranking:
