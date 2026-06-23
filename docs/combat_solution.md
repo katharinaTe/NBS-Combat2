@@ -90,11 +90,40 @@ small set of **strategy variants**:
 ## Validation and selection
 
 The variants — all rule-checked and budget-feasible by construction — are then
-evaluated **once each** with the real SWMM engine over the full year
-(`combat_validate.py`, parallel, one process per core with `THREADS=1`). The
-seven indicators are computed against the baseline `.rpt` and the variants are
-ranked with **TOPSIS** (`combat_report.py`); the top-ranked variant is promoted
-to the official `solutions.xlsx` submission.
+evaluated **once each** with the real SWMM engine (`combat_validate.py`). One
+full-year run of the official model takes **>1 hour** (dynamic-wave timestep
+collapse), which is impractical for comparing several designs, so the variants
+are ranked on a **storm-rich surrogate window** (20 Aug–3 Sep 2018, the wettest
+fortnight, with a warm-up and a trimmed rain/temperature file) where a run takes
+~2.5 min. Cost and biodiversity are period-independent; the five hydraulic /
+quality indicators are computed against the baseline `.rpt` and the variants are
+ranked with **TOPSIS** (`combat_report.py`). The window is used only to *select*
+which design to submit — the organisers re-score the submitted `solutions.xlsx`
+on the full year.
+
+### Validated outcome
+
+Against the no-NBS baseline, every benefit indicator moves the right way. TOPSIS
+ranking over the seven indicators:
+
+| Variant | Cost € | Biodiv. m² | Flood ↓ | Evap ↑ | WWTP ↑ | CSO ↓ | TSS ↓ kg | TOPSIS |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| **biodiverse** ⭐ | 640,038 | 600 | 0.013 | 0.042 | 0.987 | 1.801 | 149.6 | **0.744** |
+| balanced | 640,114 | 300 | 0.014 | 0.040 | 0.981 | 1.929 | 174.6 | 0.611 |
+| capture | 640,029 | 0 | 0.018 | 0.016 | 0.831 | 2.340 | 218.8 | 0.446 |
+| thrifty | 443,248 | 300 | 0.004 | 0.037 | 0.439 | 1.272 | 99.9 | 0.378 |
+
+`capture` wins the raw hydraulic-removal indicators but its zero biodiversity
+collapses its TOPSIS score, so the balanced **`biodiverse`** design is promoted
+to `solution_SUBMIT.xlsx` (€640,038 = 98.5% of budget, biodiversity 600 m², 299
+interventions, 0 rule violations).
+
+### A note on parallelism
+
+`combat_validate.py` launches one process per design, but the bundled SWMM
+engine effectively serialises concurrent runs (shared scratch state), so the
+batch runs sequentially in practice; with ~2.5-min surrogate runs this is not a
+bottleneck.
 
 ## Compliance
 
