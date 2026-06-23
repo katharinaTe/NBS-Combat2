@@ -93,12 +93,16 @@ def rank_variants(indicators: Dict[str, Indicators],
 def write_report(path: Path, *, baseline: CombatKPIs,
                  variant_kpis: Dict[str, CombatKPIs],
                  indicators: Dict[str, Indicators],
-                 ranking, recommended: str, summaries: Dict[str, dict]):
+                 ranking, recommended: str, summaries: Dict[str, dict],
+                 window: str = "full 2018 series"):
     lines = []
     a = lines.append
     a("# NBS Combat - Optimised Solution (official case study)\n")
-    a("Seven indicators ranked by TOPSIS, evaluated with SWMM 5.2 over the full "
-      "2018 precipitation/temperature series.\n")
+    a(f"Seven indicators ranked by TOPSIS, evaluated with SWMM 5.2 on the "
+      f"**{window}**. Cost and biodiversity are period-independent; the five "
+      f"hydraulic/quality indicators below are computed on this window and used "
+      f"to *rank* the strategy variants. The organisers score the submitted "
+      f"solution on the full year.\n")
 
     a("## Baseline (no NBS)\n")
     a(f"- Flooding loss V_F: **{baseline.flood_volume:,.3f}** (10⁶ L)")

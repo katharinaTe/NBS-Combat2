@@ -11,7 +11,7 @@ venv/
 *.hsf
 nbscombat_*/
 combat_*/
-results_combat/runs/
+results_combat/runs*/
 
 # Official participant-only Combat data (place locally; not redistributed here)
 data/official/*.inp
