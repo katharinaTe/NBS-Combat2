@@ -1,0 +1,56 @@
+{
+  "capture": {
+    "cost": 640029.0,
+    "biodiversity": 0.0,
+    "interventions": 357,
+    "subcatchments": 312,
+    "area_by_type": {
+      "bioretention": 1838.5,
+      "cistern": 362.0,
+      "permeable": 1792.3
+    }
+  },
+  "balanced": {
+    "cost": 640114.0,
+    "biodiversity": 300.0,
+    "interventions": 362,
+    "subcatchments": 318,
+    "area_by_type": {
+      "soakaway": 12.8,
+      "bioretention": 671.0,
+      "dryswale": 300.0,
+      "ext_green_roof": 2568.0,
+      "int_green_roof": 2303.0,
+      "cistern": 317.0,
+      "permeable": 1802.3
+    }
+  },
+  "biodiverse": {
+    "cost": 640038.0,
+    "biodiversity": 600.0,
+    "interventions": 299,
+    "subcatchments": 280,
+    "area_by_type": {
+      "bioretention": 600.0,
+      "dryswale": 600.0,
+      "ext_green_roof": 2568.0,
+      "int_green_roof": 2303.0,
+      "cistern": 259.0,
+      "permeable": 1752.7
+    }
+  },
+  "thrifty": {
+    "cost": 443248.0,
+    "biodiversity": 300.0,
+    "interventions": 146,
+    "subcatchments": 143,
+    "area_by_type": {
+      "bioretention": 300.0,
+      "dryswale": 300.0,
+      "ext_green_roof": 2568.0,
+      "int_green_roof": 2303.0,
+      "cistern": 75.0,
+      "permeable": 1472.5
+    }
+  }
+}
