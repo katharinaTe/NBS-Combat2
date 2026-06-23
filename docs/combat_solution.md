@@ -4,6 +4,36 @@ This documents the solution to the **official** Combat case study (the
 participant-only `Case_study_20241121.inp` and `implementation_details.xlsx`),
 as distinct from the generic demonstration framework in the repository root.
 
+## Competing against the published team results
+
+The organisers' `PerformanceIndicator_Teams.xlsx` gives the six teams' full-year
+indicators. Their TOPSIS (equal weights, organisers' method):
+
+| Team | Cost € | Biodiv. | Flood | Evap | WWTP | CSO | TSS | TOPSIS |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Team 1 | 648,895 | 1251 | 0.297 | 8.82 | 6.32 | 25.13 | 1986.6 | **0.903** |
+| Team 2 | 649,030 | 1207 | 0.288 | 9.29 | 6.71 | 16.76 | 1324.8 | 0.780 |
+| Team 3 | 627,744 | 974 | 0.295 | 6.68 | 7.57 | 15.94 | 1796.4 | 0.774 |
+| Team 4 | 639,352 | 1269 | 0.297 | 8.45 | 4.34 | 24.36 | 1889.2 | 0.764 |
+| Team 5 | 626,695 | 1213 | 0.295 | 8.07 | -2.08 | 22.33 | 1742.7 | 0.445 |
+| Team 6 | 640,020 | 0 | 0.184 | 5.16 | -0.64 | 10.69 | 819.5 | 0.107 |
+
+Two lessons drive the strategy:
+
+* **Biodiversity is decisive.** Team 6 maximised hydraulics but scored zero
+  biodiversity (`min` over the four green types) and finished last. Every strong
+  entry sits at biodiversity ~1200–1270.
+* **Biodiversity and capture are synergistic, not opposed.** Bio-retention and
+  dry swale treat 100% of a sub-catchment's impervious area, so the green LIDs
+  that earn biodiversity *are* the CSO/TSS/flood capture — the leaders are strong
+  on both at once.
+
+Our `competition_solution` targets exactly this: biodiversity **1270 m²**
+(higher than every team; Team 4's 1269 was the previous best) at **€643,492**
+(below the TOPSIS leader's €648,895), with the green LIDs placed in the
+highest-impervious sub-catchments so the same area drives capture. See
+`results_combat/teams_comparison.txt` for the head-to-head TOPSIS.
+
 ## The problem, precisely
 
 Retrofit a real **combined** sewer network (12.4 km, 805 sub-catchments, one CSO
