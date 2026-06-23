@@ -1,0 +1,123 @@
+{
+  "window": "20 Aug-3 Sep 2018 storm window (warm-up from 20 Aug, evaluation from 22 Aug)",
+  "recommended": "biodiverse",
+  "ranking": [
+    [
+      "biodiverse",
+      0.7437710509063689
+    ],
+    [
+      "balanced",
+      0.610971983736558
+    ],
+    [
+      "capture",
+      0.44557182333030365
+    ],
+    [
+      "thrifty",
+      0.37789941839693425
+    ]
+  ],
+  "baseline_kpis": {
+    "flood_volume": 0.021,
+    "evaporation": 0.76,
+    "wwtp_volume": 18.905,
+    "cso_volume": 13.157,
+    "cso_tss": 1030.568
+  },
+  "variant_indicators": {
+    "biodiverse": {
+      "cost": 640038.4110158478,
+      "biodiversity": 600.0,
+      "flood_reduction": 0.013000000000000001,
+      "evaporation_gain": 0.04200000000000004,
+      "wwtp_increase": 0.9869999999999983,
+      "cso_reduction": 1.8010000000000002,
+      "tss_reduction": 149.62299999999993
+    },
+    "balanced": {
+      "cost": 640113.9364672557,
+      "biodiversity": 300.0,
+      "flood_reduction": 0.014000000000000002,
+      "evaporation_gain": 0.040000000000000036,
+      "wwtp_increase": 0.9809999999999981,
+      "cso_reduction": 1.9290000000000003,
+      "tss_reduction": 174.611
+    },
+    "capture": {
+      "cost": 640029.1733866174,
+      "biodiversity": 0.0,
+      "flood_reduction": 0.018000000000000002,
+      "evaporation_gain": 0.016000000000000014,
+      "wwtp_increase": 0.8309999999999995,
+      "cso_reduction": 2.34,
+      "tss_reduction": 218.77800000000002
+    },
+    "thrifty": {
+      "cost": 443247.81206076674,
+      "biodiversity": 300.0,
+      "flood_reduction": 0.004,
+      "evaporation_gain": 0.03700000000000003,
+      "wwtp_increase": 0.43900000000000006,
+      "cso_reduction": 1.2720000000000002,
+      "tss_reduction": 99.92899999999997
+    }
+  },
+  "summaries": {
+    "capture": {
+      "cost": 640029.0,
+      "biodiversity": 0.0,
+      "interventions": 357,
+      "subcatchments": 312,
+      "area_by_type": {
+        "bioretention": 1838.5,
+        "cistern": 362.0,
+        "permeable": 1792.3
+      }
+    },
+    "balanced": {
+      "cost": 640114.0,
+      "biodiversity": 300.0,
+      "interventions": 362,
+      "subcatchments": 318,
+      "area_by_type": {
+        "soakaway": 12.8,
+        "bioretention": 671.0,
+        "dryswale": 300.0,
+        "ext_green_roof": 2568.0,
+        "int_green_roof": 2303.0,
+        "cistern": 317.0,
+        "permeable": 1802.3
+      }
+    },
+    "biodiverse": {
+      "cost": 640038.0,
+      "biodiversity": 600.0,
+      "interventions": 299,
+      "subcatchments": 280,
+      "area_by_type": {
+        "bioretention": 600.0,
+        "dryswale": 600.0,
+        "ext_green_roof": 2568.0,
+        "int_green_roof": 2303.0,
+        "cistern": 259.0,
+        "permeable": 1752.7
+      }
+    },
+    "thrifty": {
+      "cost": 443248.0,
+      "biodiversity": 300.0,
+      "interventions": 146,
+      "subcatchments": 143,
+      "area_by_type": {
+        "bioretention": 300.0,
+        "dryswale": 300.0,
+        "ext_green_roof": 2568.0,
+        "int_green_roof": 2303.0,
+        "cistern": 75.0,
+        "permeable": 1472.5
+      }
+    }
+  }
+}

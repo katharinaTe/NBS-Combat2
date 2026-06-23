@@ -143,6 +143,13 @@ class Solution:
         wb = openpyxl.load_workbook(template_path)
         ws_area = wb["LID_Areas"]
         ws_pct = wb["LID_Percentage_Implemented"]
+
+        def trunc(x, n=4):
+            # Floor to n decimals so a written value never exceeds the allowed
+            # maximum it was clamped to (round() can push it just over).
+            f = 10 ** n
+            return math.floor(x * f) / f
+
         # Map subcatchment -> row.
         row_of = {}
         for r in range(3, ws_area.max_row + 1):
@@ -156,8 +163,8 @@ class Solution:
             for j, key in enumerate(EXCEL_COLUMN_ORDER):
                 col = 2 + j
                 p = chosen.get(key)
-                ws_area.cell(r, col).value = round(p.area, 4) if p else 0
-                ws_pct.cell(r, col).value = round(p.from_imp_pct, 4) if p else 0
+                ws_area.cell(r, col).value = trunc(p.area) if p else 0
+                ws_pct.cell(r, col).value = trunc(p.from_imp_pct) if p else 0
         wb.save(out_path)
 
     @classmethod

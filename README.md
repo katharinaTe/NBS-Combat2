@@ -76,17 +76,31 @@ Outputs (`results_combat/`): `solution_<variant>.xlsx` (official template),
 `solution_SUBMIT.xlsx` (recommended), and `combat_report.md` (seven indicators
 + TOPSIS ranking versus the no-NBS baseline).
 
-### Constructed variants (no simulation required)
+### Validated results
 
-| Variant | Cost | Biodiversity | Interventions | Idea |
-|---|---:|---:|---:|---|
-| `capture` | €640,029 | 0 m² | 357 | maximise hydraulic / CSO / TSS benefits |
-| `balanced` | €640,114 | 300 m² | 362 | strong benefits **and** biodiversity |
-| `biodiverse` | €640,038 | 600 m² | 299 | biodiversity-led |
-| `thrifty` | €443,248 | 300 m² | 146 | spends less → stronger cost indicator |
+Four strategy variants were built (all rule-validated and within budget) and
+evaluated with SWMM on a storm-rich window (20 Aug–3 Sep 2018), then ranked by
+TOPSIS over the seven indicators. Versus the no-NBS baseline, every benefit
+indicator improves in the right direction:
 
-All four are rule-validated and within budget. The `--validate` step simulates
-each and selects the TOPSIS winner as the submission.
+| Variant | Cost € | Biodiv. m² | Flood ↓ | Evap ↑ | WWTP ↑ | CSO ↓ | TSS ↓ kg | **TOPSIS** |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| **biodiverse** ⭐ | 640,038 | 600 | 0.013 | 0.042 | 0.987 | 1.801 | 149.6 | **0.744** |
+| balanced | 640,114 | 300 | 0.014 | 0.040 | 0.981 | 1.929 | 174.6 | 0.611 |
+| capture | 640,029 | 0 | 0.018 | 0.016 | 0.831 | 2.340 | 218.8 | 0.446 |
+| thrifty | 443,248 | 300 | 0.004 | 0.037 | 0.439 | 1.272 | 99.9 | 0.378 |
+
+`capture` leads on raw flood/CSO/TSS removal but scores **zero** biodiversity,
+which sinks its TOPSIS; **`biodiverse`** is the best all-rounder and is promoted
+to `solution_SUBMIT.xlsx`. The recommended submission is fully rule-compliant:
+**€640,038** (98.5% of the €650k budget), **biodiversity 600 m²**, **299
+interventions** across 280 sub-catchments, **0 rule violations**.
+
+Over the storm window the recommended solution cuts node flooding ~60%, CSO
+overflow to the river by ~14%, and CSO-borne TSS by ~15%, while raising WWTP
+inflow and evapotranspiration — exactly the trade the Combat rewards. (The
+organisers re-score the submitted Excel on the full year; the window is used
+only to rank our own variants, since one full-year run takes >1 h.)
 
 ---
 
